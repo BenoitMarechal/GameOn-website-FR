@@ -332,7 +332,20 @@ input[data-error]::after {
   color: #fff;
   cursor: pointer;
   border: 0;
+
+
 }
+/*ajout attribut disabled*/
+
+ input.btn-submit:disabled {
+  color:  rgb(170, 170, 170);
+  cursor: default;
+  background: rgb(45, 45, 45); 
+} 
+
+
+
+
 /* custom select styles */
 .custom-select {
   position: relative;
@@ -517,6 +530,12 @@ footer {
   }
 }
 
+.result{
+  font-size: 14px;
+  font-style: italic;
+  font-weight: normal;
+}
+
 @keyframes modalopen {
   from {
     opacity: 0;
@@ -526,4 +545,6 @@ footer {
     opacity: 1;
   }
 }
+
+
 
