@@ -30,12 +30,9 @@ function closeModal(){
 //close modal event
 btnClose.addEventListener("click", closeModal);
 //FIN close modal
+/////////////////////////////////////////////////////////////////////////////////
 
 //Validation formulaire
-
-
-
-
 // variables de validité des champs
  var firstNameValidity=false;
  var lastNameValidity=false;
@@ -51,19 +48,13 @@ btnClose.addEventListener("click", closeModal);
 //dates frontieres
 //Naissance de la doyenne de l'humanité 2 janvier 1903 
 var oldestDate=new Date(1903,00,02);
-console.log( "oldestDate  " +oldestDate);
-var currentDate= new Date;
-// var today = currentDate.toDateString();
+//Date actuelle
 var today = new Date;
-console.log("today  "+ today);
-
 
 
 
  //REGEXP
-//regexp validation 2 caratères
-//premiere [a-z]
-//nouvelle [a-zA-ZÀ-ÖØ-öø-ÿ -]
+//regexp validation des caratères
 var lettre = new RegExp('[a-zA-ZÀ-ÖØ-öø-ÿ -]', 'ig');
 
 //regexp validation email
@@ -81,6 +72,7 @@ function stringCheck (stringToCheck){
     return true}
     else 
     {return false}    
+    
   }  
 
 //fonction de verification de la regexp MAIL
@@ -104,25 +96,16 @@ function quantityCheck (quantityToCheck){
   ////fonction de verification des checkboxes LOCATION
   function checkCheckboxes() {
     locationValidity=true
-     // console.log("locationValidity  "+ locationValidity)
+     
       return locationValidity
   }
 
-  // function genericCheckboxes(anyBox) {
-  //   var ((anyBox)Validity)=true
-  //     console.log((anyBox)+"Validity  "+ (anyBox)Validity)
-  //     return (anyBox)Validity
-  // }
-
-
-
 //ecoute du  prenom (first)
-
 document
 .getElementById("first")
 .addEventListener("input", function(e){
    firstNameValidity = (stringCheck(this.value))
-//  console.log("first " + stringCheck(this.value))
+
 
   return firstNameValidity  
 });
@@ -132,7 +115,6 @@ document
 .getElementById("last")
 .addEventListener("input", function(e){
   lastNameValidity = (stringCheck(this.value))
- // console.log("last  " + stringCheck(this.value)) 
   return lastNameValidity 
 });
 
@@ -141,7 +123,6 @@ document
 .getElementById("email")
 .addEventListener("input", function(e){
   emailValidity = (mailCheck(this.value))
-  console.log("email  " + mailCheck(this.value)) 
   return emailValidity 
 });
 
@@ -150,7 +131,6 @@ document
 document
 .getElementById("birthdate")
 .addEventListener("input", function(e){
- // console.log((this.value).toDateString());
    let userBirthdate=(new Date(this.value))
    console.log ("userBirthdate "+userBirthdate)
   if ((userBirthdate<today)&&userBirthdate>oldestDate){
@@ -169,13 +149,11 @@ document
 .getElementById("quantity")
 .addEventListener("input", function(e){
   quantityValidity = (quantityCheck(this.value))
- // console.log("quantity  " + quantityCheck(this.value)) 
   return quantityValidity 
 });
 
 
 // //un bouton radio est selectionné (location)
-
 // //ARRAY de toutes les LOCATIONS
 var allLocationsArray = document.getElementsByName("location");
 
@@ -185,7 +163,8 @@ var allLocationsArray = document.getElementsByName("location");
       checkCheckboxes() 
     });
   });
-  //conditions generales (obligatoire) et accord mail (facultatif)
+//conditions generales (obligatoire) et accord mail (facultatif)
+
 //checkbox1
  document
  .getElementById("checkbox1")
@@ -196,7 +175,6 @@ var allLocationsArray = document.getElementsByName("location");
   else{
     conditionsValidity=false
   }
- // console.log("conditions accepted (mandatory) "  + conditionsValidity)
   return conditionsValidity
 })
  ;
@@ -211,16 +189,10 @@ var allLocationsArray = document.getElementsByName("location");
   else{
      nextEventsMailAgreementValidity=false
   }  
- // console.log("emails accepted (not mandatory)  " + nextEventsMailAgreementValidity)
   return nextEventsMailAgreementValidity
 })
  ;
-
-
-
-
 //calcul de la validité globale:
-
 //fonction pour disable le bouton si on lui passe false
 function disableSubmit(disabled) {
   if (disabled) {
@@ -234,32 +206,25 @@ function disableSubmit(disabled) {
   }
 };
 
-//attraper n'import quel HTML "-validation"
+//attraper n'importe quelle HTML "-validation"
 function getValidation(string){
   return document.getElementById(string+"-validation")  
 };
 
-function createArrayOfMandatoryValidities(){
-  let arrayOfMandatoryValidities=[
-    firstNameValidity,
-    lastNameValidity,
-    emailValidity,
-    birthdateValidity,
-    quantityValidity,
-    locationValidity,
-    conditionsValidity,  
-  ]
-  // console.log(arrayOfMandatoryValidities)
-  globalValidity = !arrayOfMandatoryValidities.some(x => x === false) 
-   console.log("globalValidity  " +globalValidity)
-  return arrayOfMandatoryValidities;
- };
-
-// function calculateGolbalValidity(){
+//creer array des validités obilgatoires
+// function createArrayOfMandatoryValidities(){
+//   let arrayOfMandatoryValidities=[
+//     firstNameValidity,
+//     lastNameValidity,
+//     emailValidity,
+//     birthdateValidity,
+//     quantityValidity,
+//     locationValidity,
+//     conditionsValidity,  
+//   ]
 //   globalValidity = !arrayOfMandatoryValidities.some(x => x === false) 
-//   console.log("globalValidity  " +globalValidity)   
-
-// };
+//   return arrayOfMandatoryValidities;
+//  };
 
 class Field {
   constructor(title, validityValue, errorMessage) {
@@ -279,19 +244,19 @@ new Field ('quantity', quantityValidity, "Veuillez entrer un nombre entre 0 et 9
 new Field ('location', locationValidity, "Veuillez renseigner la ville qui vous intéresse"),
 new Field ('conditions', conditionsValidity, "Vous devez vérifier que vous acceptez les termes et conditions."),
  ]
-  
-for (let field of fields) {
-  // console.log(getValidation(field.title))
+ 
+//gestion des messages 
+for (let field of fields) {  
   if((field.validityValue)==false){
-    (getValidation(field.title)).innerText=field.errorMessage
-  }
+    globalValidity=false;
+    (getValidation(field.title)).innerText=field.errorMessage;
+    console.log("field  "+field.validityValue)
+    }
   else{
+    
     (getValidation(field.title)).innerText=""
   }
-
 };
-
-
 // console.log(fields);
 return fields;
 };
@@ -300,14 +265,10 @@ return fields;
  document
 .getElementById("modalForm")
 .addEventListener("input", function(e){
-  createArrayOfMandatoryValidities()
+ // createArrayOfMandatoryValidities()
    updateFields()  
-  // calculateGolbalValidity()
    disableSubmit(globalValidity) 
    return globalValidity; 
-  
-
-//autre option à approfondir (tableau))
 });
 
 
