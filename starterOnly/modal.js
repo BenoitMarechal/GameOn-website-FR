@@ -45,6 +45,7 @@ btnClose.addEventListener("click", closeModal);
  var globalValidity=false;
 // FIN variables de validité des champs
 
+
 //dates frontieres
 //Naissance de la doyenne de l'humanité 2 janvier 1903 
 var oldestDate=new Date(1903,00,02);
@@ -211,21 +212,6 @@ function getValidation(string){
   return document.getElementById(string+"-validation")  
 };
 
-//creer array des validités obilgatoires
-// function createArrayOfMandatoryValidities(){
-//   let arrayOfMandatoryValidities=[
-//     firstNameValidity,
-//     lastNameValidity,
-//     emailValidity,
-//     birthdateValidity,
-//     quantityValidity,
-//     locationValidity,
-//     conditionsValidity,  
-//   ]
-//   globalValidity = !arrayOfMandatoryValidities.some(x => x === false) 
-//   return arrayOfMandatoryValidities;
-//  };
-
 class Field {
   constructor(title, validityValue, errorMessage) {
     this.title = title;
@@ -247,17 +233,21 @@ new Field ('conditions', conditionsValidity, "Vous devez vérifier que vous acce
  
 //gestion des messages 
 for (let field of fields) {  
-  if((field.validityValue)==false){
-    globalValidity=false;
-    (getValidation(field.title)).innerText=field.errorMessage;
-    console.log("field  "+field.validityValue)
+    if((field.validityValue)==false){
+      globalValidity=false;
+    (getValidation(field.title)).innerText=field.errorMessage;    
     }
-  else{
-    
-    (getValidation(field.title)).innerText=""
+  else{  
+    (getValidation(field.title)).innerText="";
+    if(globalValidity && field.validityValue ){
+      globalValidity=true;
+    }
+    else{
+      globalValidity=false;
+    }
   }
+  console.log(field.title +"  " + field.validityValue)
 };
-// console.log(fields);
 return fields;
 };
 
@@ -265,12 +255,11 @@ return fields;
  document
 .getElementById("modalForm")
 .addEventListener("input", function(e){
- // createArrayOfMandatoryValidities()
-   updateFields()  
-   disableSubmit(globalValidity) 
+ globalValidity=true;
+   updateFields();  
+   disableSubmit(globalValidity) ;
    return globalValidity; 
 });
-
 
 document
 .getElementById("modalForm")
