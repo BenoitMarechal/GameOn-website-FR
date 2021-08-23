@@ -40,6 +40,7 @@ btnClose.addEventListener("click", closeModal);
  var firstNameValidity=false;
  var lastNameValidity=false;
  var emailValidity=false;
+ var birthdateValidity=false;
  var quantityValidity=false;
  var locationValidity=false;
  var conditionsValidity= true;
@@ -47,13 +48,26 @@ btnClose.addEventListener("click", closeModal);
  var globalValidity=false;
 // FIN variables de validité des champs
 
+//dates frontieres
+//Naissance de la doyenne de l'humanité 2 janvier 1903 
+var oldestDate=new Date(1903,00,02);
+console.log( "oldestDate  " +oldestDate);
+var currentDate= new Date;
+// var today = currentDate.toDateString();
+var today = new Date;
+console.log("today  "+ today);
+
+
+
 
  //REGEXP
 //regexp validation 2 caratères
-var lettre = new RegExp('[a-z]', 'ig');
+//premiere [a-z]
+//nouvelle [a-zA-ZÀ-ÖØ-öø-ÿ -]
+var lettre = new RegExp('[a-zA-ZÀ-ÖØ-öø-ÿ -]', 'ig');
 
 //regexp validation email
-let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
+let emailRegExp = new RegExp('^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$', 'g');
 
 //regexp validation quantités de tournois (quantity)
 var quantityRegExp = new RegExp('[0-9]', 'g');
@@ -109,6 +123,7 @@ document
 .addEventListener("input", function(e){
    firstNameValidity = (stringCheck(this.value))
 //  console.log("first " + stringCheck(this.value))
+
   return firstNameValidity  
 });
 
@@ -126,8 +141,27 @@ document
 .getElementById("email")
 .addEventListener("input", function(e){
   emailValidity = (mailCheck(this.value))
-//  console.log("email  " + mailCheck(this.value)) 
+  console.log("email  " + mailCheck(this.value)) 
   return emailValidity 
+});
+
+
+//ecoute de la date ("birthdate")
+document
+.getElementById("birthdate")
+.addEventListener("input", function(e){
+ // console.log((this.value).toDateString());
+   let userBirthdate=(new Date(this.value))
+   console.log ("userBirthdate "+userBirthdate)
+  if ((userBirthdate<today)&&userBirthdate>oldestDate){
+    birthdateValidity=true
+  }
+  else{
+    birthdateValidity=false
+  }
+console.log("birthdateValidity   " +birthdateValidity)
+return birthdateValidity;
+
 });
 
 //ecoute de la quantity ("quantity")
@@ -210,19 +244,14 @@ function createArrayOfMandatoryValidities(){
     firstNameValidity,
     lastNameValidity,
     emailValidity,
+    birthdateValidity,
     quantityValidity,
     locationValidity,
     conditionsValidity,  
   ]
-  console.log(arrayOfMandatoryValidities)
+  // console.log(arrayOfMandatoryValidities)
   globalValidity = !arrayOfMandatoryValidities.some(x => x === false) 
    console.log("globalValidity  " +globalValidity)
-
-
-
-
-
-
   return arrayOfMandatoryValidities;
  };
 
@@ -244,26 +273,15 @@ function updateFields(){
  let fields = [
 new Field ('firstName', firstNameValidity, "Veuillez entrer 2 caractères ou plus pour le champ du prénom."),
 new Field ('lastName', lastNameValidity, "Veuillez entrer 2 caractères ou plus pour le champ du nom."),
-new Field ('email', emailValidity, "Veuillez entrer une adresse email valide."),
+new Field ('email', emailValidity, "Veuillez entrer une adresse email valide (format JJ/MM/AAAA)."),
+new Field ('birthdate', birthdateValidity, "Veuillez entrer une date valide."),
 new Field ('quantity', quantityValidity, "Veuillez entrer un nombre entre 0 et 99"),
 new Field ('location', locationValidity, "Veuillez renseigner la ville qui vous intéresse"),
 new Field ('conditions', conditionsValidity, "Vous devez vérifier que vous acceptez les termes et conditions."),
  ]
-// //  resultatFinal=true;
-// for (let element of fields) { 
-// getValidation(element)
-// if((element.validityValue)=true){
-//   console.log("nope")
-//  }
-//  else{
-//    console.log("yep")
-//  }
-// };
- 
-//  console.log("resultatFinal" + resultatFinal);
   
 for (let field of fields) {
-  console.log(getValidation(field.title))
+  // console.log(getValidation(field.title))
   if((field.validityValue)==false){
     (getValidation(field.title)).innerText=field.errorMessage
   }
@@ -274,40 +292,17 @@ for (let field of fields) {
 };
 
 
-  // console.log(field.title+" XX "+field.validityValue)
-  // if(field.validityValue==true){
-  //   console.log("yep")
-  // }
-  // else{
-  //   console.log("nope");
-    
-  //  getValidation(field.title).innerText="aaaaaa";
- //   (getValidation(field.title)).innerText="ygtjkh";
-
-//   }
-// }
-console.log(fields);
+// console.log(fields);
 return fields;
 };
 
-// getValidation('quantity')
-// .innerText="aaaaaa";
-
-
-
-
-
 //ecouter le changement de global validity + modifier le bouton
-
-
-
-
  document
 .getElementById("modalForm")
 .addEventListener("input", function(e){
   createArrayOfMandatoryValidities()
    updateFields()  
-   //calculateGolbalValidity()
+  // calculateGolbalValidity()
    disableSubmit(globalValidity) 
    return globalValidity; 
   
@@ -315,21 +310,14 @@ return fields;
 //autre option à approfondir (tableau))
 });
 
-//FIN ecouter le changement de global validity + modifier le bouton
 
+document
+.getElementById("modalForm")
+.addEventListener("submit", function(e){
+  
+  window.alert("Merci ! Votre réservation a été reçue.")
 
-//fonction pour pointer sur la validation de chaque element
-
-// globalValidity=true;
-
-// console.log(element.errorMessage)
-// console.log(getValidation(element))
-// globalValidity=globalValidity && arrayOfMandatoryValidities.validityValue
-// console.log("resultatFinal  " +resultatFinal)
-// };
-
-// console.log("resultatFinal" + resultatFinal);
-
+});
 
 
  
