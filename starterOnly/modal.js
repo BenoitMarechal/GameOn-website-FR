@@ -34,8 +34,8 @@ btnClose.addEventListener("click", closeModal);
 
 //Validation formulaire
 // variables de validité des champs
- var firstNameValidity=false;
- var lastNameValidity=false;
+ var firstValidity=false;
+ var lastValidity=false;
  var emailValidity=false;
  var birthdateValidity=false;
  var quantityValidity=false;
@@ -105,18 +105,18 @@ function quantityCheck (quantityToCheck){
 document
 .getElementById("first")
 .addEventListener("input", function(e){
-   firstNameValidity = (stringCheck(this.value))
+   firstValidity = (stringCheck(this.value))
 
 
-  return firstNameValidity  
+  return firstValidity  
 });
 
 //ecoute du  nom (last)
 document
 .getElementById("last")
 .addEventListener("input", function(e){
-  lastNameValidity = (stringCheck(this.value))
-  return lastNameValidity 
+  lastValidity = (stringCheck(this.value))
+  return lastValidity 
 });
 
 //ecoute de l'email ("email")
@@ -222,8 +222,8 @@ class Field {
 
 function updateFields(){
  let fields = [
-new Field ('firstName', firstNameValidity, "Veuillez entrer 2 caractères ou plus pour le champ du prénom."),
-new Field ('lastName', lastNameValidity, "Veuillez entrer 2 caractères ou plus pour le champ du nom."),
+new Field ('first', firstValidity, "Veuillez entrer 2 caractères ou plus pour le champ du prénom."),
+new Field ('last', lastValidity, "Veuillez entrer 2 caractères ou plus pour le champ du nom."),
 new Field ('email', emailValidity, "Veuillez entrer une adresse email valide (format JJ/MM/AAAA)."),
 new Field ('birthdate', birthdateValidity, "Veuillez entrer une date valide."),
 new Field ('quantity', quantityValidity, "Veuillez entrer un nombre entre 0 et 99"),
