@@ -164,6 +164,37 @@ let arrayOfImportantValidities=[
 
 
 
+// //  gestion des messages 
+function errorMessage(){
+
+  for (let field of fields) {  
+      if(((field.validityValue)==false)&&(field.focusState==true)){
+
+      (getValidation(field.title)).innerText=field.errorMessage;    
+     }
+    else{  
+      (getValidation(field.title)).innerText="";}
+    }
+  };
+
+
+
+
+//      if(globalValidity && field.validityValue){
+//        globalValidity=true;
+//      }
+//      else{
+//        globalValidity=false;
+//      }
+//    }
+//    console.log(field.title +"  " + field.validityValue);
+//    console.log ("globalValidity   "+ globalValidity);
+//    return globalValidity;   
+//  };};
+
+
+
+
 
   function focusByName(string){
     let resultArray = document.getElementsByName(string);
@@ -177,8 +208,8 @@ let arrayOfImportantValidities=[
           if((field.title)==elementOfArray.name){
             console.log("found "+ elementOfArray.name)
             field.focusState=true;
-            console.log(fields)
-            
+            errorMessage();
+            console.log(fields)           
                  
           }
         }        
@@ -192,10 +223,8 @@ let arrayOfImportantValidities=[
           if((field.title)==elementOfArray.name){
             console.log("found "+ elementOfArray.name)
             field.focusState=true;
-            console.log(fields)
-               
-            
-                    
+            errorMessage();
+            console.log(fields)   
           }
         } 
 
@@ -388,25 +417,6 @@ return globalValidity;
 // // updateFields()
 // globalValidity=true;
   
-// //  gestion des messages 
-//  for (let field of fields) {  
-//      if((field.validityValue)==false){
-//        globalValidity=false;
-//      (getValidation(field.title)).innerText=field.errorMessage;    
-//      }
-//    else{  
-//      (getValidation(field.title)).innerText="";
-//      if(globalValidity && field.validityValue){
-//        globalValidity=true;
-//      }
-//      else{
-//        globalValidity=false;
-//      }
-//    }
-//    console.log(field.title +"  " + field.validityValue);
-//    console.log ("globalValidity   "+ globalValidity);
-//    return globalValidity;   
-//  };};
 
 
  
@@ -549,6 +559,7 @@ function getValidation(string){
 .getElementById("modalForm")
 .addEventListener("input", function(e){
 updateFieldsValidity();
+errorMessage()
 calculateGlobalValidity();
 disableSubmit(globalValidity) ;
    return globalValidity; 
