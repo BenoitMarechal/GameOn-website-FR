@@ -45,6 +45,8 @@ btnClose.addEventListener("click", closeModal);
  let globalValidity=false;
 // END of declaration and initialisation of validity variables
 
+
+
 //list of focus Variables
 let firstFocus=false;
 let lastFocus=false;
@@ -54,19 +56,16 @@ let quantityFocus=false;
 let locationFocus=false;
 let conditionsFocus= false;
 
-function resetFocusStates(){
-  let firstFocus=false;
-let lastFocus=false;
-let emailFocus=false;
-let birthdateFocus=false;
-let quantityFocus=false;
-let locationFocus=false;
-let conditionsFocus= false;
-};
 
-
-
-
+let focusArray=[
+  firstFocus,
+  lastFocus,
+  emailFocus,
+  birthdateFocus,
+  quantityFocus,
+  locationFocus,
+  conditionsFocus
+  ];
 
 
 
@@ -81,72 +80,233 @@ class Field {
   }
 }
 
-// //Creation of fields object:
-// let fields = [
-//   new Field ('first', firstValidity, "Veuillez entrer 2 caractères ou plus pour le champ du prénom."),
-//   new Field ('last', lastValidity, "Veuillez entrer 2 caractères ou plus pour le champ du nom."),
-//   new Field ('email', emailValidity, "Veuillez entrer une adresse email valide (format JJ/MM/AAAA)."),
-//   new Field ('birthdate', birthdateValidity, "Veuillez entrer une date valide."),
-//   new Field ('quantity', quantityValidity, "Veuillez entrer un nombre entre 0 et 99"),
-//   new Field ('location', locationValidity, "Veuillez renseigner la ville qui vous intéresse"),
-//   new Field ('conditions', conditionsValidity, "Vous devez vérifier que vous acceptez les termes et conditions."),
-//    ];
+//Creation of fields object:
+let fields = [
+  new Field ('first', firstValidity, "Veuillez entrer 2 caractères ou plus pour le champ du prénom.", firstFocus),
+  new Field ('last', lastValidity, "Veuillez entrer 2 caractères ou plus pour le champ du nom.", lastFocus),
+  new Field ('email', emailValidity, "Veuillez entrer une adresse email valide (format JJ/MM/AAAA).", emailFocus),
+  new Field ('birthdate', birthdateValidity, "Veuillez entrer une date valide.", birthdateFocus),
+  new Field ('quantity', quantityValidity, "Veuillez entrer un nombre entre 0 et 99", quantityFocus),
+  new Field ('location', locationValidity, "Veuillez renseigner la ville qui vous intéresse", locationFocus),
+  new Field ('conditions', conditionsValidity, "Vous devez vérifier que vous acceptez les termes et conditions.", conditionsFocus),
+   ];
 
+   function resetFocusStates(){
+    for (let line of fields){
+  line.focusState=false;
+    }
+  // console.log (focusArray);
+  };
+  resetFocusStates();
 
- //  function that updatesthe fileds object
-function updateFields(){
-  let fields = [
- new Field ('first', firstValidity, "Veuillez entrer 2 caractères ou plus pour le champ du prénom.", firstFocus),
- new Field ('last', lastValidity, "Veuillez entrer 2 caractères ou plus pour le champ du nom.", lastFocus),
- new Field ('email', emailValidity, "Veuillez entrer une adresse email valide (format JJ/MM/AAAA).", emailFocus),
- new Field ('birthdate', birthdateValidity, "Veuillez entrer une date valide.", birthdateFocus),
- new Field ('quantity', quantityValidity, "Veuillez entrer un nombre entre 0 et 99", quantityFocus),
- new Field ('location', locationValidity, "Veuillez renseigner la ville qui vous intéresse", locationFocus),
- new Field ('conditions', conditionsValidity, "Vous devez vérifier que vous acceptez les termes et conditions.", conditionsFocus)
-  ];
+//UPDATE VALIDITY
+function updateFieldsValidity(){
+let arrayOfImportantValidities=[
+  firstValidity,
+  lastValidity,
+  emailValidity,
+  birthdateValidity,
+  quantityValidity,
+  locationValidity,
+  conditionsValidity,  
+];
+  for (let i=0; i<fields.length;i++) { 
+    fields[i].validityValue=arrayOfImportantValidities[i];   
+  
+  };    
 
+  console.log(fields);
+  return fields;  };
 
+  
 
-for (let field of fields) {  
+ //Managment of focus detection
 
-//  //define focusByName
 //  function focusByName(string){
 //   let resultArray = document.getElementsByName(string);
-//   resultArray.forEach((elementOfArray) => {
-//   elementOfArray.addEventListener("focus", function(e){ 
-//       console.log("focus by name  "+ string);
-//       return true;
-//       });
-//       elementOfArray.addEventListener("click", function(e){ 
-//         console.log("focus by name  "+ string);
-//         return true;  
-//         }); 
-//         return true;
+//   console.log ("resultArray")
+//   console.log (resultArray)
+//   //listenning for input in any location checkbox 
+
+//   for (let i=0; i<resultArray.length;i++) { 
+//     // fields[i].focu=arrayOfImportantValidities[i];
+//     resultArray[i].addEventListener("focus", function(e){
+//       console.log("yay "+fields[i].title)
+//       fields[i].focusState=true;
+//       console.log(fields)
+//     })   
+
+//   };  
+// }
+
+  // resultArray.forEach((elementOfArray) => {
+  //   elementOfArray.addEventListener("focus", function(e){
+  //     console.log("focus by name  "+ string)
+             
+      
+  //     });
+  //     elementOfArray.addEventListener("click", function(e){ 
+  //       console.log("focus by name  "+ string);        
+  //       return true;
+  //       });
+  //   });
+  //   return false;    
+  // }  
+
+//launching detection  
+//  for (let field of fields) {
+//   focusByName(field.title);
+//   field.focusState=(focusByName(field.title));
+//   console.log(fields);
+//   console.log(focusByName(field.title));
+//  }
+
+
+
+
+
+  function focusByName(string){
+    let resultArray = document.getElementsByName(string);
+    //listenning for input in any location checkbox 
+    resultArray.forEach((elementOfArray) => {
+      elementOfArray.addEventListener("focus", function(e){
+        resetFocusStates();
+        console.log("focus by name  "+ string)       
+        console.log("name  "+ elementOfArray.name)
+        for (let field of fields){
+          if((field.title)==elementOfArray.name){
+            console.log("found "+ elementOfArray.name)
+            field.focusState=true;
+            console.log(fields)
+            
+                 
+          }
+        }        
+      }        
+        );
+        elementOfArray.addEventListener("click", function(e){ 
+          resetFocusStates();
+          console.log("focus by name  "+ string)       
+        console.log("name  "+ elementOfArray.name)
+        for (let field of fields){
+          if((field.title)==elementOfArray.name){
+            console.log("found "+ elementOfArray.name)
+            field.focusState=true;
+            console.log(fields)
+               
+            
+                    
+          }
+        } 
+
+          });
+
+
+
+      });
+        
+    }  
+
+  //launching detection  
+   for (let field of fields) {
+    focusByName(field.title);
+    // field.focusState=(focusByName(field.title));
+    console.log(fields);
+    console.log(focusByName(field.title));
+   }
+
+ 
+
+
+
+
+
+    // function updateFieldsFocus(){
+    // for (let field of fields){
+    //   field.focusState=(focusByName(field.title));
+    //   console.log(field)
+    // }};
+
+
+
+
+// fields [2].errorMessage="test";
+// console.log(fields);
   
-//     });  
-//   }
 
-//  focusByName(field.title);
-//  console.log(focusByName(field.title));
-//  //define focusByName
-
-
-function focusByName(string){
-let resultArray = document.getElementsByName(string);
-resultArray.forEach ((elementOfArray) => {
- elementOfArray.addEventListener("focus", function(e){
-  field.focusState=true;
-  console.log("focus by name  "+ field.title + field.focusState)});
+//limit dates
+//World's oldest personn birthdate: 1903, Jan 2nd; 
+let oldestDate=new Date(1903,00,02);
+//Current date:
+let today = new Date;
+//END of limit dates
 
 
-  elementOfArray.addEventListener("click", function(e){
-    field.focusState=true;
-    console.log("focus by name  "+ field.title + field.focusState)})})
+ //REGEXP
+//Regexp for letter validation (first and last names)
+let letter = new RegExp('[a-zA-ZÀ-ÖØ-öø-ÿ -]', 'ig');
+
+//regexp for email validation
+let emailRegExp = new RegExp('^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$', 'g');
+
+//regexp for quantity validation (quantity)
+let quantityRegExp = new RegExp('[0-9]', 'g');
+//END OF REGEXP
+
+//VERIFICATION FUNCTIONS
+//Function that runs the letter Regexp:
+function stringCheck (stringToCheck){
+  if ((((stringToCheck.match(letter))!==null)&&((stringToCheck.length)>2)&&(((stringToCheck.length) - (stringToCheck.match(letter).length))==0)))
+    {    
+    return true}
+    else 
+    {return false}    
+    
+  }  
+
+////Function that runs the email Regexp:
+  function mailCheck (mailToCheck){
+    if ((mailToCheck.match(emailRegExp)!==null))
+      {    
+      return true}
+      else 
+      {return false}    
+    }  
+
+////Function that runs the quantity Regexp:
+function quantityCheck (quantityToCheck){
+  if ((quantityToCheck.match(quantityRegExp)!==null) && (quantityToCheck.length<=2)  )
+    {    
+    return true}
+    else 
+    {return false}    
+  }      
+
+  //////Function that runs the location checkboxes validation:
+  function checkCheckboxes() {
+    locationValidity=true     
+      
   }
-console.log(fields);
-};
 
-};
+
+
+
+// function focusByName(string){
+// let resultArray = document.getElementsByName(string);
+// resultArray.forEach ((elementOfArray) => {
+//  elementOfArray.addEventListener("focus", function(e){
+//   field.focusState=true;
+//   console.log("focus by name  "+ field.title + field.focusState)});
+
+
+//   elementOfArray.addEventListener("click", function(e){
+//     field.focusState=true;
+//     console.log("focus by name  "+ field.title + field.focusState)})})
+//   }
+// console.log(fields);
+// };
+
+// };
 
   
 // console.log(field.title +" "+field.validityValue)
@@ -193,7 +353,31 @@ console.log(fields);
 
 
 
-
+function calculateGlobalValidity(){
+  globalValidity=true;
+for (let field of fields){
+  if ((field.validityValue==false)){
+    globalValidity=false;    
+    console.log("globalValidity  "+globalValidity);
+    return globalValidity;
+  }
+  else{
+    if ((field.validityValue) && (globalValidity)){
+      globalValidity=true;
+    }
+    else{
+      globalValidity=false;
+      console.log("globalValidity  "+globalValidity);
+      return globalValidity;
+    }
+  }
+ 
+  console.log(field.title+"  "+field.validityValue)
+  console.log("globalValidity  "+globalValidity);
+  
+}
+return globalValidity;
+};
 
 
   
@@ -201,16 +385,10 @@ console.log(fields);
 
 
 // function calculateGlobalValidity(){
-  //updateFields()
- // globalValidity=true;
-
- 
-
-
-// };
-
+// // updateFields()
+// globalValidity=true;
   
- //gestion des messages 
+// //  gestion des messages 
 //  for (let field of fields) {  
 //      if((field.validityValue)==false){
 //        globalValidity=false;
@@ -218,86 +396,37 @@ console.log(fields);
 //      }
 //    else{  
 //      (getValidation(field.title)).innerText="";
-//      if(globalValidity && field.validityValue ){
+//      if(globalValidity && field.validityValue){
 //        globalValidity=true;
 //      }
 //      else{
 //        globalValidity=false;
 //      }
 //    }
-//    console.log(field.title +"  " + field.validityValue)
-//  };
+//    console.log(field.title +"  " + field.validityValue);
+//    console.log ("globalValidity   "+ globalValidity);
+//    return globalValidity;   
+//  };};
+
 
  
-  updateFields();
+  // updateFields();
 
 
-//limit dates
-//World's oldest personn birthdate: 1903, Jan 2nd; 
-let oldestDate=new Date(1903,00,02);
-//Current date:
-let today = new Date;
-//END of limit dates
 
-
- //REGEXP
-//Regexp for letter validation (first and last names)
-let letter = new RegExp('[a-zA-ZÀ-ÖØ-öø-ÿ -]', 'ig');
-
-//regexp for email validation
-let emailRegExp = new RegExp('^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$', 'g');
-
-//regexp for quantity validation (quantity)
-let quantityRegExp = new RegExp('[0-9]', 'g');
-
-
-//VERIFICATION FUNCTIONS
-//Function that runs the letter Regexp:
-function stringCheck (stringToCheck){
-  if ((((stringToCheck.match(letter))!==null)&&((stringToCheck.length)>2)&&(((stringToCheck.length) - (stringToCheck.match(letter).length))==0)))
-    {    
-    return true}
-    else 
-    {return false}    
-    
-  }  
-
-////Function that runs the email Regexp:
-  function mailCheck (mailToCheck){
-    if ((mailToCheck.match(emailRegExp)!==null))
-      {    
-      return true}
-      else 
-      {return false}    
-    }  
-
-////Function that runs the quantity Regexp:
-function quantityCheck (quantityToCheck){
-  if ((quantityToCheck.match(quantityRegExp)!==null) && (quantityToCheck.length<=2)  )
-    {    
-    return true}
-    else 
-    {return false}    
-  }      
-
-  //////Function that runs the location checkboxes validation:
-  function checkCheckboxes() {
-    locationValidity=true     
-      
-  }
 
 //listenning for input in the firstname box
 document
 .getElementById("first")
 .addEventListener("input", function(e){
   //Running validation function
-   firstValidity = (stringCheck(this.value))
-  return firstValidity  
+   firstValidity = (stringCheck(this.value))   
+  return firstValidity ;
 });
 
 
 
-//listenning for input in the firstname box
+//listenning for input in the lastname box
 document
 .getElementById("last")
 .addEventListener("input", function(e){
@@ -419,11 +548,9 @@ function getValidation(string){
  document
 .getElementById("modalForm")
 .addEventListener("input", function(e){
- globalValidity=true;
- resetFocusStates();
-   updateFields();  
-  // calculateGlobalValidity();
-   disableSubmit(globalValidity) ;
+updateFieldsValidity();
+calculateGlobalValidity();
+disableSubmit(globalValidity) ;
    return globalValidity; 
 });
 
@@ -455,29 +582,7 @@ document
 //location checkboxes
 // //ARRAY for all location checkboxes
 
-// function focusByName(string){
 
-
-// let resultArray = document.getElementsByName(string);
-
-// //listenning for input in any location checkbox 
-// resultArray.forEach((elementOfArray) => {
-//   elementOfArray.addEventListener("focus", function(e){ 
-//     console.log("focus by name  "+ string);
-
-//     });
-//     elementOfArray.addEventListener("click", function(e){ 
-//       console.log("focus by name  "+ string);
-//       return true;  
-//       }); 
-//       // return true;
-      
-
-
-
-//   });
-
-// }
 
 
 // console.log("essai " + focusByName("first"));
