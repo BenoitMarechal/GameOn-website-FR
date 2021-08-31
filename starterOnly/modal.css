@@ -548,4 +548,69 @@ footer {
 }
 
 
+/* confirmation modal */
+/* <div class="confirm">        
+         <div class="confirm-body">
+          <span class="close" id="btnClose2"></span>
+          <div class="confirm-body-message">MERCI</div>
+          <input
+                class="btn-submit"
+                type="submit"
+                class="button"
+                id="submit-confirm"
+                value="Close"                
+            />          
+         </div> */
 
+.confirm{
+  display: none;
+}
+
+.confirm-background{
+  position: fixed;
+  top:0px;
+  bottom:0px;
+  left:0px;
+  right:0px;
+  background: gray;
+  opacity: 0.5;
+  z-index: 1;
+  border: 1px solid red;
+}
+
+.confirm-body{
+  z-index: 2;  
+  border: 1px solid blue;
+  position: fixed;
+  top:0px;
+  bottom:0px;
+  left:0px;
+  right:0px;
+  background: #232323;
+  margin:7% 15% 7% 15% ;
+  /* opacity: 2;
+  z-index: 2; */
+  /* height: 100%; */
+  display: flex;
+  flex-direction: column;
+  
+  justify-content: flex-start;
+  align-items: center;
+
+
+}
+
+.confirm-body-message{
+  color:white;
+  font-weight: normal;
+  height: 100%;
+  margin: 30px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-size: 200%;
+}
+
+.confirm-btn-submit{
+  margin: 30px;
+}

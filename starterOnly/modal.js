@@ -13,6 +13,8 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 //DOM const btn close
 const btnClose = document.getElementById("btnClose");
+console.log(modalBtn);
+console.log(formData);
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -30,6 +32,10 @@ function closeModal(){
 //close modal event
 btnClose.addEventListener("click", closeModal);
 //END of close modal
+
+
+
+
 /////////////////////////////////////////////////////////////////////////////////
 
 //Form validation
@@ -519,56 +525,72 @@ disableSubmit(globalValidity) ;
    return globalValidity; 
 });
 
-// document
-// .getElementById("modalForm")
-// .addEventListener("submit", function(e){  
-//   window.alert("Merci ! Votre réservation a été reçue.")
-//   closeModal()
+//----------------CONFIRMATION MODAL------------------------------
 
-// });
+// const modalBtn = document.querySelectorAll(".modal-btn");
+// // launch modal event
+// 
+
+// // launch modal form
+// function launchModal() {
+//   modalbg.style.display = "block";
+// }
+
+
+
+
+
+// get both CLOSE buttons
+const ConfirmationModalBtns = document.querySelectorAll(".closeConfirmationModal");
+console.log(ConfirmationModalBtns);
+
+//close modal event
+ConfirmationModalBtns.forEach((btn) => btn.addEventListener("click", hideConfirmationModal));
+
+// //function for closing confirmation modal
+function hideConfirmationModal(){
+  document.querySelector(".confirm").style.display="none";  
+}
+
+const confirmationModalBody= document.getElementById("confirm-div")
+console.log(confirmationModalBody)
+
+
+//function for opening confirmation modal (OK but won't run)
+function displayConfirmationModal(){
+  confirmationModalBody.style.display="block";  
+}
+
+displayConfirmationModal();
+
+
+
+document
+.getElementById("submit")
+.addEventListener("click", function(e){
+  // displayConfirmationModal()
+  
+  console.log("coucou")
+  closeModal;
+  displayConfirmationModal();  
+  window.alert("Merci ! Votre réservation a été reçue.")
+  preventDefault();
+});
+
+//close confirmation modal event --> listenning for click on any button
+// document
+// .getElementsByClassName("closeConfirmationModal")
+// // console.log(this);
+// ConfirmationModalBtns.addEventListener("click", hideConfirmationModal());
+// //END of  close confirmation modal
 
 
 function validate(){
-//   document
-// .getElementById("modalForm")
-// .addEventListener("submit", function(e){  
-  window.alert("Merci ! Votre réservation a été reçue.")
-  // closeModal()
+  preventDefault();
+  console.log("validate");
 
-// });
 }
 
-// function focusDetect(string){
-//   document
-//   .getElementById(string)
-//   .addEventListener("focus", function(e){
-//     updateFields();
-//     console.log ("focus on "+string);
-//   })
-// };
-
-
-// focusDetect("first");
-// focusDetect("last");
-// focusDetect("email");
-// focusDetect("birthdate");
-// focusDetect("quantity");
-
-
-//location checkboxes
-// //ARRAY for all location checkboxes
-
-
-
-
-// console.log("essai " + focusByName("first"));
-// console.log("essai2 " + focusByName(""));
-// focusByName("last");
-// focusByName("email");
-// focusByName("birthdate");
-// focusByName("quantity");
-// focusByName("location");
-// focusByName("conditions");
 
 
  
