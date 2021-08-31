@@ -549,7 +549,8 @@ ConfirmationModalBtns.forEach((btn) => btn.addEventListener("click", hideConfirm
 
 // //function for closing confirmation modal
 function hideConfirmationModal(){
-  document.querySelector(".confirm").style.display="none";  
+  document.querySelector(".confirm").style.display="none"; 
+  window.alert("Merci ! Votre réservation a été reçue.") 
 }
 
 const confirmationModalBody= document.getElementById("confirm-div")
@@ -558,23 +559,39 @@ console.log(confirmationModalBody)
 
 //function for opening confirmation modal (OK but won't run)
 function displayConfirmationModal(){
-  confirmationModalBody.style.display="block";  
+  confirmationModalBody.style.display="flex";  
 }
 
-displayConfirmationModal();
+// displayConfirmationModal();
 
 
-
-document
-.getElementById("submit")
-.addEventListener("click", function(e){
-  // displayConfirmationModal()
+//option1: click on submit button
+// document
+// .getElementById("submit")
+// .addEventListener("click", function(e){
+//   // displayConfirmationModal()
+//   // preventDefault()
+//   displayConfirmationModal();
+//   // console.log("coucou")
+//   closeModal();
+//   displayConfirmationModal();  
+//   // window.alert("Merci ! Votre réservation a été reçue.")
   
-  console.log("coucou")
-  closeModal;
-  displayConfirmationModal();  
-  window.alert("Merci ! Votre réservation a été reçue.")
-  preventDefault();
+// });
+
+
+//option2: on submit of the whole form
+document
+.getElementById("modalForm")
+.addEventListener("submit", function(e){
+  // displayConfirmationModal()
+  e.preventDefault()
+   closeModal();
+  displayConfirmationModal();
+  console.log("coucou")  
+ 
+   window.alert("Merci ! Votre réservation a été reçue.")
+  
 });
 
 //close confirmation modal event --> listenning for click on any button
@@ -586,8 +603,9 @@ document
 
 
 function validate(){
-  preventDefault();
+   
   console.log("validate");
+  // preventDefault();
 
 }
 
