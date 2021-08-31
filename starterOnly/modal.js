@@ -95,7 +95,7 @@ let fields = [
     for (let line of fields){
   line.focusState=false;
     }
-  // console.log (focusArray);
+  
   };
   resetFocusStates();
 
@@ -118,96 +118,66 @@ let arrayOfImportantValidities=[
   console.log(fields);
   return fields;  };
 
-  
-
- //Managment of focus detection
-
-//  function focusByName(string){
-//   let resultArray = document.getElementsByName(string);
-//   console.log ("resultArray")
-//   console.log (resultArray)
-//   //listenning for input in any location checkbox 
-
-//   for (let i=0; i<resultArray.length;i++) { 
-//     // fields[i].focu=arrayOfImportantValidities[i];
-//     resultArray[i].addEventListener("focus", function(e){
-//       console.log("yay "+fields[i].title)
-//       fields[i].focusState=true;
-//       console.log(fields)
-//     })   
-
-//   };  
-// }
-
-  // resultArray.forEach((elementOfArray) => {
-  //   elementOfArray.addEventListener("focus", function(e){
-  //     console.log("focus by name  "+ string)
-             
-      
-  //     });
-  //     elementOfArray.addEventListener("click", function(e){ 
-  //       console.log("focus by name  "+ string);        
-  //       return true;
-  //       });
-  //   });
-  //   return false;    
-  // }  
-
-//launching detection  
-//  for (let field of fields) {
-//   focusByName(field.title);
-//   field.focusState=(focusByName(field.title));
-//   console.log(fields);
-//   console.log(focusByName(field.title));
-//  }
 
 
 
-
-// //  gestion des messages 
+// Function for error Messages (called on both focus/click and input)
 function errorMessage(){
 
-  for (let field of fields) {  
-      if(((field.validityValue)==false)&&(field.focusState==true)){
 
-      (getValidation(field.title)).innerText=field.errorMessage;    
+  for (let field of fields) 
+  
+  {  
+    console.log((document.getElementById(field.title)));
+
+
+      if(((field.validityValue)==false)&&(field.focusState==true)){
+      (getValidation(field.title)).innerText=field.errorMessage;
+
+        if(
+           (document.getElementById(field.title))           
+          ){;
+        document.getElementById(field.title).style.border = "2px solid red"}   
+      
+      // if((document.getElementById(field.title).classList.contains("text-control"))){;
+      // document.getElementById(field.title).style.border = "2px solid red"}      
      }
     else{  
-      (getValidation(field.title)).innerText="";}
+      (getValidation(field.title)).innerText="";
+      if(
+        (document.getElementById(field.title))           
+       ){;
+     document.getElementById(field.title).style.border = "none"}   
+
+
+      
+    }
     }
   };
 
 
 
 
-//      if(globalValidity && field.validityValue){
-//        globalValidity=true;
-//      }
-//      else{
-//        globalValidity=false;
-//      }
-//    }
-//    console.log(field.title +"  " + field.validityValue);
-//    console.log ("globalValidity   "+ globalValidity);
-//    return globalValidity;   
-//  };};
-
-
-
-
-
+//function for detecting focus (and click in the case of checkboxes)
   function focusByName(string){
+    //get all Elements (by name, because of checkboxes like location1 to location6)
+    //All elements are stored in array "ResultArray"
     let resultArray = document.getElementsByName(string);
-    //listenning for input in any location checkbox 
+    //listenning for focus 
     resultArray.forEach((elementOfArray) => {
       elementOfArray.addEventListener("focus", function(e){
+        //All previous focuses are reset
         resetFocusStates();
+        //identifying the field with focus
         console.log("focus by name  "+ string)       
         console.log("name  "+ elementOfArray.name)
+        //looking for names from "resultArray" that match titles in the "fields" array.
         for (let field of fields){
           if((field.title)==elementOfArray.name){
             console.log("found "+ elementOfArray.name)
+            //when the correct line is found, the focusState value is modified
             field.focusState=true;
+            //function errorMessage is called after focusState is set to true
             errorMessage();
             console.log(fields)           
                  
@@ -215,6 +185,7 @@ function errorMessage(){
         }        
       }        
         );
+        //listenning for click (for the case of checkboxes)
         elementOfArray.addEventListener("click", function(e){ 
           resetFocusStates();
           console.log("focus by name  "+ string)       
@@ -239,29 +210,7 @@ function errorMessage(){
   //launching detection  
    for (let field of fields) {
     focusByName(field.title);
-    // field.focusState=(focusByName(field.title));
-    console.log(fields);
-    console.log(focusByName(field.title));
    }
-
- 
-
-
-
-
-
-    // function updateFieldsFocus(){
-    // for (let field of fields){
-    //   field.focusState=(focusByName(field.title));
-    //   console.log(field)
-    // }};
-
-
-
-
-// fields [2].errorMessage="test";
-// console.log(fields);
-  
 
 //limit dates
 //World's oldest personn birthdate: 1903, Jan 2nd; 
@@ -546,6 +495,11 @@ function disableSubmit(disabled) {
   }
 };
 
+// //function that returns div with matching ID:
+// function getId(string){
+//   return document.getElementById(string)  
+// };
+
 //function that returns "-validation" div of any field:
 function getValidation(string){
   return document.getElementById(string+"-validation")  
@@ -565,13 +519,24 @@ disableSubmit(globalValidity) ;
    return globalValidity; 
 });
 
-document
-.getElementById("modalForm")
-.addEventListener("submit", function(e){
-  
-  window.alert("Merci ! Votre réservation a été reçue.")
+// document
+// .getElementById("modalForm")
+// .addEventListener("submit", function(e){  
+//   window.alert("Merci ! Votre réservation a été reçue.")
+//   closeModal()
 
-});
+// });
+
+
+function validate(){
+//   document
+// .getElementById("modalForm")
+// .addEventListener("submit", function(e){  
+  window.alert("Merci ! Votre réservation a été reçue.")
+  // closeModal()
+
+// });
+}
 
 // function focusDetect(string){
 //   document
