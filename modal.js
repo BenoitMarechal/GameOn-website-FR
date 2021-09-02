@@ -20,7 +20,7 @@ function launchModal() {
   modalbg.style.display = "block";
 }
 
-//------------------close modal
+//------------------close modal--------------------------------
 const btnClose = document.getElementById("btnClose"); //gets the "close" button
 //function that closes the modal form
 function closeModal(){
@@ -28,9 +28,7 @@ function closeModal(){
 }
 //close modal event
 btnClose.addEventListener("click", closeModal); //runs the closing function when button is clcked
-//------------------END of close modal
-
-
+//------------------END of close modal---------------------------------
 
 
 //-----------------------INDIVIDUAL FIELDS VALIDATION-----------------------------------------------------------------------------------
@@ -459,12 +457,9 @@ document
   closeModal();//closes the form modal
   this.reset();
   displayConfirmationModal();//displays the confirmation modal
-
               });
 
-// function validate(){ //called by the html code   
-//   window.alert("Merci ! Votre réservation a été reçue.")  //sends a confirmation alert
-//                     };
+
 //----------------------- END OF SUBMIT---------------------------------------
 
 
