@@ -128,36 +128,29 @@ let arrayOfImportantValidities=[
 
 
 // Function for error Messages (called on both focus/click and input)
-function errorMessage(){
-
-
-  for (let field of fields) 
-  
-  {  
-    console.log((document.getElementById(field.title)));
-
-
-      if(((field.validityValue)==false)&&(field.focusState==true)){
-      (getValidation(field.title)).innerText=field.errorMessage;
-
+function errorMessage()
+{
+  for (let field of fields)   
+    {  
+      // console.log((document.getElementById(field.title)));
+      if(((field.validityValue)==false)&&(field.focusState==true))
+        {
+        (getValidation(field.title)).innerText=field.errorMessage;
+          if((document.getElementById(field.title))) //this condition takes away the case of checkboxes, as these fields don't need a red border
+          {
+          document.getElementById(field.title).style.border = "2px solid red"
+          };  
+        
+        // if((document.getElementById(field.title).classList.contains("text-control"))){;
+        // document.getElementById(field.title).style.border = "2px solid red"}      
+        }
+      else{  
+        (getValidation(field.title)).innerText="";
         if(
-           (document.getElementById(field.title))           
-          ){;
-        document.getElementById(field.title).style.border = "2px solid red"}   
-      
-      // if((document.getElementById(field.title).classList.contains("text-control"))){;
-      // document.getElementById(field.title).style.border = "2px solid red"}      
-     }
-    else{  
-      (getValidation(field.title)).innerText="";
-      if(
-        (document.getElementById(field.title))           
-       ){;
-     document.getElementById(field.title).style.border = "none"}   
-
-
-      
-    }
+          (document.getElementById(field.title))           
+        ){;
+      document.getElementById(field.title).style.border = "none"}         
+      }
     }
   };
 
@@ -272,71 +265,6 @@ function quantityCheck (quantityToCheck){
       
   }
 
-
-
-
-// function focusByName(string){
-// let resultArray = document.getElementsByName(string);
-// resultArray.forEach ((elementOfArray) => {
-//  elementOfArray.addEventListener("focus", function(e){
-//   field.focusState=true;
-//   console.log("focus by name  "+ field.title + field.focusState)});
-
-
-//   elementOfArray.addEventListener("click", function(e){
-//     field.focusState=true;
-//     console.log("focus by name  "+ field.title + field.focusState)})})
-//   }
-// console.log(fields);
-// };
-
-// };
-
-  
-// console.log(field.title +" "+field.validityValue)
-
-//console.log("globalValidity  " + globalValidity)
-
-  
-//  }) 
-//  elementOfArray.addEventListener("click", function(e){
-//   field.focusState=true;
-//   console.log("focus by name  "+ field.title + field.focusState);
-  
-//  }) 
- //field.focusState=true;
-
-
-
-// });
-
-// 
-//     elementOfArray.addEventListener("focus", function(e){ 
-//         console.log("focus by name  "+ string);
-//         return true;
-//         });
-
-
-
-//   if((((field.validityValue)==false) && (field.focusState)))  {
-//     globalValidity=false;
-//   (getValidation(field.title)).innerText=field.errorMessage;    
-//   }
-// else{  
-//   (getValidation(field.title)).innerText="";
-//   if(globalValidity && field.validityValue ){
-//     globalValidity=true;
-//   }
-//   else{
-//     globalValidity=false;
-//   }
-// }
-// console.log(field.title +" "+field.validityValue)
-// console.log("globalValidity  " + globalValidity)
-//return globalValidity;
-
-
-
 function calculateGlobalValidity(){
   globalValidity=true;
 for (let field of fields){
@@ -362,23 +290,6 @@ for (let field of fields){
 }
 return globalValidity;
 };
-
-
-  
-
-
-
-// function calculateGlobalValidity(){
-// // updateFields()
-// globalValidity=true;
-  
-
-
- 
-  // updateFields();
-
-
-
 
 //listenning for input in the firstname box
 document
@@ -527,18 +438,6 @@ disableSubmit(globalValidity) ;
 
 //----------------CONFIRMATION MODAL------------------------------
 
-// const modalBtn = document.querySelectorAll(".modal-btn");
-// // launch modal event
-// 
-
-// // launch modal form
-// function launchModal() {
-//   modalbg.style.display = "block";
-// }
-
-
-
-
 
 // get both CLOSE buttons
 const ConfirmationModalBtns = document.querySelectorAll(".closeConfirmationModal");
@@ -550,7 +449,7 @@ ConfirmationModalBtns.forEach((btn) => btn.addEventListener("click", hideConfirm
 // //function for closing confirmation modal
 function hideConfirmationModal(){
   document.querySelector(".confirm").style.display="none"; 
-  window.alert("Merci ! Votre réservation a été reçue.") 
+  // window.alert("Merci ! Votre réservation a été reçue.") 
 }
 
 const confirmationModalBody= document.getElementById("confirm-div")
@@ -562,51 +461,24 @@ function displayConfirmationModal(){
   confirmationModalBody.style.display="flex";  
 }
 
-// displayConfirmationModal();
 
-
-//option1: click on submit button
-// document
-// .getElementById("submit")
-// .addEventListener("click", function(e){
-//   // displayConfirmationModal()
-//   // preventDefault()
-//   displayConfirmationModal();
-//   // console.log("coucou")
-//   closeModal();
-//   displayConfirmationModal();  
-//   // window.alert("Merci ! Votre réservation a été reçue.")
-  
-// });
 
 
 //option2: on submit of the whole form
 document
 .getElementById("modalForm")
 .addEventListener("submit", function(e){
-  // displayConfirmationModal()
   e.preventDefault()
-   closeModal();
+  closeModal();
   displayConfirmationModal();
-  console.log("coucou")  
- 
-   window.alert("Merci ! Votre réservation a été reçue.")
-  
+  // 
 });
-
-//close confirmation modal event --> listenning for click on any button
-// document
-// .getElementsByClassName("closeConfirmationModal")
-// // console.log(this);
-// ConfirmationModalBtns.addEventListener("click", hideConfirmationModal());
-// //END of  close confirmation modal
-
 
 function validate(){
    
   console.log("validate");
   // preventDefault();
-
+  window.alert("Merci ! Votre réservation a été reçue.")  
 }
 
 
