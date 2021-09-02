@@ -11,10 +11,6 @@ function editNav() {
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
-//DOM const btn close
-
-console.log(modalBtn);
-console.log(formData);
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -139,8 +135,8 @@ function quantityCheck (quantityToCheck){
 
 //listenning for input in the firstname box
 document
-.getElementById("first")
-.addEventListener("input", function(e){
+.getElementById("first") //gets element
+.addEventListener("input", function(e){ //listens for input
      firstValidity = (stringCheck(this.value))    //Running validation function
   return firstValidity ;
 });
@@ -149,16 +145,16 @@ document
 
 //listenning for input in the lastname box
 document
-.getElementById("last")
-.addEventListener("input", function(e){
+.getElementById("last") //gets element
+.addEventListener("input", function(e){ //listens for input
     lastValidity = (stringCheck(this.value)) //Running validation function
   return lastValidity 
 });
 
 //listenning for input in the email box
 document
-.getElementById("email")
-.addEventListener("input", function(e){
+.getElementById("email") //gets element
+.addEventListener("input", function(e){ //listens for input
   emailValidity = (mailCheck(this.value)) //Running validation function
   return emailValidity 
 });
@@ -166,8 +162,8 @@ document
 
 //listenning for input in the birthdate box
 document
-.getElementById("birthdate")
-.addEventListener("input", function(e){
+.getElementById("birthdate") //gets element
+.addEventListener("input", function(e){ //listens for input
      let userBirthdate=(new Date(this.value)) //declare input as a variable
   //condition: input is between oldestDate and today:
   if (                      //IF
@@ -187,7 +183,7 @@ return birthdateValidity;
 
 //listenning for input in the quantity box
 document
-.getElementById("quantity")
+.getElementById("quantity") //gets element
 .addEventListener("input", function(e){  
   quantityValidity = (quantityCheck(this.value)) //running the validation function
   return quantityValidity;
@@ -205,8 +201,7 @@ let allLocationsArray = document.getElementsByName("location"); // Create an arr
 
 //checkbox1 (condition agreement)
  document
- .getElementById("checkbox1") //gets checkbox 1
- //listenning for input in checkbox1
+ .getElementById("checkbox1") //gets checkbox 1 
  .addEventListener("input", function(e){//listens for input in checkbox1   
  if (this.checked){ 
    conditionsValidity=true //turn validity to true when checked
@@ -294,7 +289,7 @@ let fields = [
           field.focusState=true; 
           //No need for errorMessage() since "click" and "input" are the same event in the case a checkbox         
         }
-      } 
+      }
 
         });
 
@@ -462,12 +457,14 @@ document
 .addEventListener("submit", function(e){//listens to submit event on the form
   e.preventDefault(); //prevents automatic closing/reload of page and loss of informations
   closeModal();//closes the form modal
+  this.reset();
   displayConfirmationModal();//displays the confirmation modal
+
               });
 
-function validate(){ //called by the html code   
-  window.alert("Merci ! Votre réservation a été reçue.")  //sends a confirmation alert
-                    };
+// function validate(){ //called by the html code   
+//   window.alert("Merci ! Votre réservation a été reçue.")  //sends a confirmation alert
+//                     };
 //----------------------- END OF SUBMIT---------------------------------------
 
 
