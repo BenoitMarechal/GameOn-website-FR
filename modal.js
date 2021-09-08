@@ -45,7 +45,18 @@ let today = new Date;
 
  //--------REGEXP
 //Regexp for letter validation (first and last names)
-let letter = new RegExp('[a-zA-ZÀ-ÖØ-öø-ÿ -]', 'ig');
+//originale '[a-zA-ZÀ-ÖØ-öø-ÿ -]', 'ig'
+
+//[a-zA-ZÀ-ÖØ-öø-ÿ]
+
+//let letter = new RegExp('(?<! )[a-zA-ZÀ-ÖØ-öø-ÿ -]', 'ig')
+let letter = new RegExp(/^[A-ZÀ-ÖØ]+(([',. -][a-zA-ZÀ-ÖØ-öø-ÿ])?[a-zA-ZÀ-ÖØ-öø-ÿ]*)*$/);
+
+//`^[^\s]+[A-Z]{1}+[a-zA-ZÀ-ÖØ-öø-ÿ -]*$`ig
+//^[A-ZÀ-Ö]{1}+[a-zA-ZÀ-ÖØ-öø-ÿ -]+(\s+[a-zA-ZÀ-ÖØ-öø-ÿ -]+)*$
+
+
+
 
 //regexp for email validation
 let emailRegExp = new RegExp('^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$', 'ig');
@@ -95,12 +106,10 @@ class Field {
 //Function that runs the letter Regexp:
 function stringCheck (stringToCheck){
   if 
-  ((((stringToCheck.match(letter))!==null) //checks if the amount of characters matching the regexp is not null
+  (((stringToCheck.match(letter))!==null) //checks if the amount of characters matching the regexp is not null
   &&                                       //AND
-  ((stringToCheck.length)>1)              //input has at list three characters,
-   &&                                      //AND
-   (((stringToCheck.length) - (stringToCheck.match(letter).length))==0))) // amount of characters matching the regExp matches total lenght of input )
-
+  (stringToCheck.length)>1)             //input has at list three characters,
+ 
     {    
     return true;
     }
@@ -110,6 +119,26 @@ function stringCheck (stringToCheck){
     }    
     
   };
+
+// //-------------VERIFICATION FUNCTIONS
+// //Function that runs the letter Regexp:
+// function stringCheck (stringToCheck){
+//   if 
+//   ((((stringToCheck.match(letter))!==null) //checks if the amount of characters matching the regexp is not null
+//   &&                                       //AND
+//   ((stringToCheck.length)>1)              //input has at list three characters,
+//    &&                                      //AND
+//    (((stringToCheck.length) - (stringToCheck.match(letter).length))==0))) // amount of characters matching the regExp matches total lenght of input )
+
+//     {    
+//     return true;
+//     }
+//     else 
+//     {
+//       return false;
+//     }    
+    
+//   };
 
 ////Function that runs the email Regexp:
   function mailCheck (mailToCheck){
@@ -235,8 +264,8 @@ let allLocationsArray = document.getElementsByName("location"); // Create an arr
 
 //Creation of fields object (contains all necessary informations for each field of the form):
 let fields = [
-  new Field ('first', firstValidity, "Veuillez entrer 2 caractères ou plus pour le champ du prénom.", firstFocus),
-  new Field ('last', lastValidity, "Veuillez entrer 2 caractères ou plus pour le champ du nom.", lastFocus),
+  new Field ('first', firstValidity, "Veuillez entrer 2 caractères ou plus pour le champ du prénom (Première lettre en MAJUSCULE).", firstFocus),
+  new Field ('last', lastValidity, "Veuillez entrer 2 caractères ou plus pour le champ du nom (Première lettre en MAJUSCULE).", lastFocus),
   new Field ('email', emailValidity, "Veuillez entrer une adresse email valide (format JJ/MM/AAAA).", emailFocus),
   new Field ('birthdate', birthdateValidity, "Veuillez entrer une date valide.", birthdateFocus),
   new Field ('quantity', quantityValidity, "Veuillez entrer un nombre entre 0 et 99", quantityFocus),
@@ -550,11 +579,10 @@ document
 
 
 /* ------------------------------------------------------------------------
-         Lier les labels aux entrées dans le HTML en utilisant les attributs "for" et "id"  --> OK
-
+Lier les labels aux entrées dans le HTML en utilisant les attributs "for" et "id"  --> OK
 Autoriser les emails en majuscules  --> OK
 2 caracteres minimum --> OK
-// ne pas desactiver le .btn-submit -->OK
+Ne pas desactiver le .btn-submit -->OK
 Il ne faut pas autoriser les espaces
 
 
