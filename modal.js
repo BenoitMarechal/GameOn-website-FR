@@ -20,6 +20,7 @@ function launchModal() {
   modalbg.style.display = "block";
 }
 
+
 //------------------close modal--------------------------------
 const btnClose = document.getElementById("btnClose"); //gets the "close" button
 //function that closes the modal form
@@ -47,7 +48,7 @@ let today = new Date;
 let letter = new RegExp('[a-zA-ZÀ-ÖØ-öø-ÿ -]', 'ig');
 
 //regexp for email validation
-let emailRegExp = new RegExp('^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$', 'g');
+let emailRegExp = new RegExp('^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$', 'ig');
 
 //regexp for quantity validation (quantity)
 let quantityRegExp = new RegExp('[0-9]', 'g');
@@ -422,6 +423,7 @@ disableSubmit(globalValidity) ; //  Manages the "enabled/disabled" state on subm
    return globalValidity; 
                                         });
 //------------------------------------END Input on modal form--------------------------------------
+
 
 //----------------CONFIRMATION MODAL------------------------------
 
