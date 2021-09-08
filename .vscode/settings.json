@@ -1,9 +1,16 @@
 {
-    "prettier.htmlWhitespaceSensitivity": "strict",
-    "prettier.jsxSingleQuote": true,
-    "prettier.insertPragma": true,
-    "prettier.jsxBracketSameLine": true,
-    "prettier.resolveGlobalModules": true,
-    "prettier.useTabs": true,
-    "prettier.vueIndentScriptAndStyle": true
+	"prettier.htmlWhitespaceSensitivity": "strict",
+	"prettier.jsxSingleQuote": true,
+	"prettier.insertPragma": true,
+	"prettier.jsxBracketSameLine": true,
+	"prettier.resolveGlobalModules": true,
+	"prettier.useTabs": true,
+	"prettier.vueIndentScriptAndStyle": true,
+	"editor.fontLigatures": true,
+
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true
+	}
 }
