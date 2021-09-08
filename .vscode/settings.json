@@ -1,0 +1,9 @@
+{
+    "prettier.htmlWhitespaceSensitivity": "strict",
+    "prettier.jsxSingleQuote": true,
+    "prettier.insertPragma": true,
+    "prettier.jsxBracketSameLine": true,
+    "prettier.resolveGlobalModules": true,
+    "prettier.useTabs": true,
+    "prettier.vueIndentScriptAndStyle": true
+}

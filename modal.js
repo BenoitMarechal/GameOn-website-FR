@@ -97,7 +97,7 @@ function stringCheck (stringToCheck){
   if 
   ((((stringToCheck.match(letter))!==null) //checks if the amount of characters matching the regexp is not null
   &&                                       //AND
-  ((stringToCheck.length)>2)              //input has at list three characters,
+  ((stringToCheck.length)>1)              //input has at list three characters,
    &&                                      //AND
    (((stringToCheck.length) - (stringToCheck.match(letter).length))==0))) // amount of characters matching the regExp matches total lenght of input )
 
@@ -242,6 +242,7 @@ let fields = [
   new Field ('quantity', quantityValidity, "Veuillez entrer un nombre entre 0 et 99", quantityFocus),
   new Field ('location', locationValidity, "Veuillez renseigner la ville qui vous intéresse", locationFocus),
   new Field ('conditions', conditionsValidity, "Vous devez vérifier que vous acceptez les termes et conditions.", conditionsFocus),
+
    ];
 
 
@@ -419,7 +420,7 @@ function disableSubmit(disabled) {
 updateFieldsValidity(); //calls for the update of all validites in the fields objects
 errorMessage() //calls for the update on error messages
 calculateGlobalValidity(); //calcultes globalValidity
-disableSubmit(globalValidity) ; //  Manages the "enabled/disabled" state on submit button
+//disableSubmit(globalValidity) ; //  Manages the "enabled/disabled" state on submit button
    return globalValidity; 
                                         });
 //------------------------------------END Input on modal form--------------------------------------
@@ -435,6 +436,7 @@ const confirmationModalBody= document.getElementById("confirm-div") //declares a
 //Functions declarations
 //function for closing confirmation modal (will be called when buttons are clicked)
 function hideConfirmationModal(){
+  
   confirmationModalBody.style.display="none"; //hides the whole parent of confirmation modal div
                                 };
 //function for opening confirmation modal (will be called on submit)
@@ -464,6 +466,24 @@ document
 
 //----------------------- END OF SUBMIT---------------------------------------
 
+
+/* ------------------------------------------------------------------------
+         Lier les labels aux entrées dans le HTML en utilisant les attributs "for" et "id"  --> OK
+
+Autoriser les emails en majuscules  --> OK
+2 caracteres minimum --> OK
+
+Il ne faut pas autoriser les espaces
+
+
+// ryade.mecibah@gmail.com
+
+
+// envoyer les messages seulement au bouton .btn-submit
+// ne pas desactiver le .btn-submit
+
+
+------------------------------------------------------------------------------------------*/
 
  
 
