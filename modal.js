@@ -68,6 +68,7 @@ let quantityRegExp = new RegExp('[0-9]', 'g');
 
 
 //------------Declaration and initialisation of validity variables
+
  let firstValidity=false;
  let lastValidity=false;
  let emailValidity=false;
@@ -78,6 +79,7 @@ let quantityRegExp = new RegExp('[0-9]', 'g');
  let nextEventsMailAgreementValidity= false;
 
  let globalValidity=false; //defines the validity of the whole form
+
 //-------------END of declaration and initialisation of validity variables
 
 //-------------focus Variables
@@ -453,7 +455,7 @@ let fields = [
 
 
 //---------UPDATE FIELDS VALIDITY------------------
-function updateFieldsValidity()//will be used to upload validities in the fields object, after form input
+function updateFieldsValidity()//will be used to refresh validities in the fields object, after form input
 { 
     let arrayOfImportantValidities//packs all necessary validity values in an array, with their current states
       =[   
@@ -468,8 +470,23 @@ function updateFieldsValidity()//will be used to upload validities in the fields
   for (let i=0; i<fields.length;i++) { //loops through every line of "fields" object
     fields[i].validityValue=arrayOfImportantValidities[i]; //appplies corresponding current Validity value read in the array
                                       };
+                                      console.log("update")
+                                      console.log("calcul" +globalValidity)
+                                      console.log(fields)
+
   return fields;  
 };
+
+
+function resetValidities(){
+  firstValidity=false;
+  lastValidity=false;
+  emailValidity=false;
+  birthdateValidity=false;
+  quantityValidity=false;
+  locationValidity=false;
+  conditionsValidity=true;
+}
 //---------END UPDATE VALIDITY------------------
 
 
@@ -525,6 +542,8 @@ updateFieldsValidity(); //calls for the update of all validites in the fields ob
 errorMessageOnFocus();
 removeValidMessages()
 calculateGlobalValidity(); //calcultes globalValidity
+console.log(fields)
+console.log("globalValidity "+globalValidity)
 //disableSubmit(globalValidity) ; //  Manages the "enabled/disabled" state on submit button
    return globalValidity; 
                                         });
@@ -546,7 +565,7 @@ function hideConfirmationModal(){
                                 };
 //function for opening confirmation modal (will be called on submit)
 function displayConfirmationModal(){
-  confirmationModalBody.style.display="flex" //Display switches to flex
+  confirmationModalBody.style.display="flex"  //Display switches to flex
                                     };
 //END Functions declarations
 
@@ -562,15 +581,24 @@ btn.addEventListener("click", hideConfirmationModal)); //listens to click, calls
 document
 .getElementById("modalForm") //gets the form
 .addEventListener("submit", function(e){//listens to submit event on the form
+  console.log("au clic  "+globalValidity)
   e.preventDefault(); //prevents automatic closing/reload of page and loss of informations
+ //updateFieldsValidity();
+ // calculateGlobalValidity();
+  if (globalValidity==false)
+  {
+    console.log("deso c'est false")
+    errorMessageOnSubmit();    
+  }
+  else{ 
+  closeModal();//closes the form modal
+  this.reset(); //resets form modal
+  displayConfirmationModal();//displays the confirmation modal
+  resetValidities();
   updateFieldsValidity();
   calculateGlobalValidity();
-  if (globalValidity==false){
-    errorMessageOnSubmit();    }
-  else{     
-  closeModal();//closes the form modal
-  this.reset();
-  displayConfirmationModal();//displays the confirmation modal
+  console.log(fields)
+  console.log(globalValidity)
               };
             });
             
