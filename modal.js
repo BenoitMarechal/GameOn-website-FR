@@ -44,17 +44,10 @@ let today = new Date();
 
 //--------REGEXP
 //Regexp for letter validation (first and last names)
-//originale '[a-zA-ZÀ-ÖØ-öø-ÿ -]', 'ig'
 
-//[a-zA-ZÀ-ÖØ-öø-ÿ]
-
-//let letter = new RegExp('(?<! )[a-zA-ZÀ-ÖØ-öø-ÿ -]', 'ig')
 let letter = new RegExp(
 	/^[A-ZÀ-ÖØ]+(([',. -][a-zA-ZÀ-ÖØ-öø-ÿ])?[a-zA-ZÀ-ÖØ-öø-ÿ]*)*$/
 );
-
-//`^[^\s]+[A-Z]{1}+[a-zA-ZÀ-ÖØ-öø-ÿ -]*$`ig
-//^[A-ZÀ-Ö]{1}+[a-zA-ZÀ-ÖØ-öø-ÿ -]+(\s+[a-zA-ZÀ-ÖØ-öø-ÿ -]+)*$
 
 //regexp for email validation
 let emailRegExp = new RegExp(
@@ -78,27 +71,16 @@ let conditionsValidity = true; //"conditions" checkbox is on by default
 let nextEventsMailAgreementValidity = false;
 
 let globalValidity = false; //defines the validity of the whole form
-
 //-------------END of declaration and initialisation of validity variables
 
-//-------------focus Variables
-//will be used to determine wether the fields are focused on or not
-let firstFocus = false;
-let lastFocus = false;
-let emailFocus = false;
-let birthdateFocus = false;
-let quantityFocus = false;
-let locationFocus = false;
-let conditionsFocus = false;
-//-------------END focus Variables
 
 //Creation of "Field" Class
 class Field {
-	constructor(title, validityValue, errorMessage, focusState) {
+	constructor(title, validityValue, errorMessage) 
+	{
 		this.title = title;
 		this.validityValue = validityValue;
-		this.errorMessage = errorMessage;
-		this.focusState = focusState;
+		this.errorMessage = errorMessage;	
 	}
 }
 
@@ -193,8 +175,7 @@ document.getElementById('quantity') //gets element
 let allLocationsArray = document.getElementsByName('location'); // Create an array for all location checkboxes
 allLocationsArray.forEach((elementOfArray) => {
 	//For each location checkbox
-	elementOfArray.addEventListener('input', function (e) {
-		//listen for input
+	elementOfArray.addEventListener('input', function (e) {//listen for input		
 		locationValidity = true; //turns locationValidity to true if one is ticked)
 		return locationValidity;
 	});
@@ -233,58 +214,39 @@ let fields = [
 	new Field(
 		'first',
 		firstValidity,
-		'Veuillez entrer 2 caractères ou plus pour le champ du prénom (Première lettre en MAJUSCULE).',
-		firstFocus
+		'Veuillez entrer 2 caractères ou plus pour le champ du prénom (Première lettre en MAJUSCULE).'		
 	),
 	new Field(
 		'last',
 		lastValidity,
-		'Veuillez entrer 2 caractères ou plus pour le champ du nom (Première lettre en MAJUSCULE).',
-		lastFocus
+		'Veuillez entrer 2 caractères ou plus pour le champ du nom (Première lettre en MAJUSCULE).'
 	),
 	new Field(
 		'email',
 		emailValidity,
-		'Veuillez entrer une adresse email valide (format JJ/MM/AAAA).',
-		emailFocus
+		'Veuillez entrer une adresse email valide (format JJ/MM/AAAA).'
 	),
 	new Field(
 		'birthdate',
 		birthdateValidity,
-		'Veuillez entrer une date valide.',
-		birthdateFocus
+		'Veuillez entrer une date valide.'
 	),
 	new Field(
 		'quantity',
 		quantityValidity,
-		'Veuillez entrer un nombre entre 0 et 99',
-		quantityFocus
+		'Veuillez entrer un nombre entre 0 et 99'
 	),
 	new Field(
 		'location',
 		locationValidity,
-		'Veuillez renseigner la ville qui vous intéresse',
-		locationFocus
+		'Veuillez renseigner la ville qui vous intéresse'
 	),
 	new Field(
 		'conditions',
 		conditionsValidity,
-		'Vous devez vérifier que vous acceptez les termes et conditions.',
-		conditionsFocus
+		'Vous devez vérifier que vous acceptez les termes et conditions.'
 	),
 ];
-
-//-------------------------MANAGING FOCUS DETECTION ----------------------------------------------
-//-------Reset focus----------------
-function resetFocusStates() {
-	//will be used to reset all focus states in the fields object
-	for (let line of fields) {
-		//loops through every line of fileds
-		line.focusState = false; //sets focusState to false
-	}
-}
-
-//-------END Reset focus----------------
 
 //---------------------Managing Error messages------------------------
 
@@ -308,10 +270,8 @@ function hideAllMessages() {
 }
 
 function errorMessageOnSubmit() {
-	for (let field of fields) {
-		//loops through every line of "fields" object
-		if (field.validityValue == false) {
-			//If field has focus AND is not valid
+	for (let field of fields) {//loops through every line of "fields" object		
+		if (field.validityValue == false) { //If field is not valid			
 			getValidation(field.title).innerText =
 				field.errorMessage; //reaches the validation div with getValidation function //Displays message stored in fields object
 			if (document.getElementById(field.title))
@@ -369,10 +329,6 @@ function updateFieldsValidity() {
 		//loops through every line of "fields" object
 		fields[i].validityValue = arrayOfImportantValidities[i]; //appplies corresponding current Validity value read in the array
 	}
-	console.log('update');
-	console.log('calcul' + globalValidity);
-	console.log(fields);
-
 	return fields;
 }
 
@@ -388,8 +344,7 @@ function resetValidities() {
 //---------END UPDATE VALIDITY------------------
 
 //---------------------Managing global Validity------------------------
-function calculateGlobalValidity() {
-	//calculates globalValidity, will be called after fields object is updated
+function calculateGlobalValidity() {//calculates globalValidity, will be called after fields object is updated	
 	globalValidity = true; //globalValidity is first set to true
 	for (let field of fields) {
 		//looping through every item of the fields object
@@ -415,9 +370,6 @@ document.getElementById('modalForm') //gets the form
 		updateFieldsValidity(); //calls for the update of all validites in the fields objects
 		removeValidMessages();
 		calculateGlobalValidity(); //calcultes globalValidity
-		console.log(fields);
-		console.log('globalValidity ' + globalValidity);
-		//disableSubmit(globalValidity) ; //  Manages the "enabled/disabled" state on submit button
 		return globalValidity;
 	});
 //------------------------------------END Input on modal form--------------------------------------
@@ -453,14 +405,9 @@ ConfirmationModalBtns.forEach(
 
 //-----------------------SUBMIT---------------------------------------
 document.getElementById('modalForm') //gets the form
-	.addEventListener('submit', function (e) {
-		//listens to submit event on the form
-		console.log('au clic  ' + globalValidity);
-		e.preventDefault(); //prevents automatic closing/reload of page and loss of informations
-		//updateFieldsValidity();
-		// calculateGlobalValidity();
-		if (globalValidity == false) {
-			console.log("deso c'est false");
+	.addEventListener('submit', function (e) {//listens to submit event on the form				
+		e.preventDefault(); //prevents automatic closing/reload of page and loss of informations		
+		if (globalValidity == false) {			
 			errorMessageOnSubmit();
 		} else {
 			closeModal(); //closes the form modal
@@ -468,10 +415,8 @@ document.getElementById('modalForm') //gets the form
 			displayConfirmationModal(); //displays the confirmation modal
 			resetValidities();
 			updateFieldsValidity();
-			calculateGlobalValidity();
-			console.log(fields);
-			console.log(globalValidity);
-		}
+			calculateGlobalValidity();			
+			}
 	});
 
 //----------------------- END OF SUBMIT---------------------------------------

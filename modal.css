@@ -1,3 +1,5 @@
+/** @format */
+
 :root {
 	--font-default: 'DM Sans', Arial, Helvetica, sans-serif;
 	--font-slab: var(--font-default);
@@ -11,10 +13,9 @@
 /* Landing Page */
 
 body {
-	margin: 0;
+		margin: 0;
 	display: flex;
 	flex-direction: column;
-
 	font-family: var(--font-default);
 	font-size: 18px;
 	max-width: 1300px;
@@ -546,21 +547,6 @@ footer {
 	}
 }
 
-/* 
-<div class="confirm" id="confirm-div"> 
-         <div class="confirm-background"></div>       
-         <div class="confirm-body">
-          <span class="close closeConfirmationModal" id="btnClose2"></span>
-          <div class="confirm-body-message">Thank you for submitting your registration details</div>
-          <input
-                class="btn-submit confirm-btn-submit closeConfirmationModal"
-                type="submit"
-                class="button"
-                id="submit-confirm"
-                value="Close"                
-            />          
-         </div> */
-
 .confirm {
 	display: none;
 	justify-content: center;
@@ -572,9 +558,7 @@ footer {
 	bottom: 0px;
 	left: 0px;
 	right: 0px;
-	/* background: gray; */
 	background-color: rgba(26, 39, 156, 0.4);
-	/* opacity: 0.5; */
 	z-index: 1;
 }
 
@@ -582,9 +566,6 @@ footer {
 	animation-name: modalopen;
 	animation-duration: var(--modal-duration);
 	overflow: hidden;
-	/* max-width: 400px; 
-   min-width: 350px;
-  min-height: 300px; */
 	z-index: 2;
 	position: fixed;
 	top: 0px;
@@ -596,12 +577,7 @@ footer {
 	margin-left: 30%;
 	margin-right: 30%;
 	height: auto;
-
 	background: #232323;
-	/* margin:7% 30% 7% 30% ; */
-	/* opacity: 2;
-  z-index: 2; */
-	/* height: 100%; */
 	border-radius: 10px;
 	display: flex;
 	flex-direction: column;
@@ -629,7 +605,7 @@ footer {
 
 @media screen and (max-width: 540px) {
 	.confirm-body {
-		  max-width: unset;
+		max-width: unset;
 		width: 100%;
 		top: 0px;
 		bottom: 0px;
@@ -641,23 +617,3 @@ footer {
 		margin-right: 0%;
 	}
 }
-/* 
-  .confirm-body-message{   
-  
-  
-  height: 100%;
-  margin: 30px 10% 30px 0px;
-  max-width: unset;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  font-size: 150%;
-  color: blue;
-
-  }
-  
-  .confirm-btn-submit{
-
-  }
-}; */

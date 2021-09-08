@@ -7,10 +7,12 @@
 	"prettier.useTabs": true,
 	"prettier.vueIndentScriptAndStyle": true,
 	"editor.fontLigatures": true,
-
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": 	true,
+	"prettier.tabWidth": 2,
+
 	"[javascript]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode",
-		"editor.formatOnSave": true
+		"editor.formatOnSave": 	true,
 	}
 }
