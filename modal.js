@@ -261,51 +261,51 @@ let fields = [
       //-------END Reset focus----------------
 
 
-    //-------------detecting focus (and click in the case of checkboxes)---------------------
-  // function focusByName(string){ // will be given fields by name, because of checkboxes #location1 to #location6)   
+   // -------------detecting focus (and click in the case of checkboxes)---------------------
+  function focusByName(string){ // will be given fields by name, because of checkboxes #location1 to #location6)   
     
-  // let resultArray = document.getElementsByName(string); //All elements are stored in array "ResultArray" ( of one line except for location checkboxes)
+  let resultArray = document.getElementsByName(string); //All elements are stored in array "ResultArray" ( of one line except for location checkboxes)
   
-  // resultArray.forEach((elementOfArray) => //following instruction will be applied to each element:
-  // {
-  //   elementOfArray.addEventListener("focus", function(e){ //listenning for focus        
-  //     resetFocusStates(); //All previous focus values in fields object are reset        
-  //     for (let field of fields) //looping through fields object
-  //       {
-  //       if((field.title)==elementOfArray.name){ //looking for names from "resultArray" that match titles of element in the "fields" object.
-  //         field.focusState=true;//when the correct line is found, the focusState value is modified back to true in the fields object            
-  //          errorMessage();//function errorMessage is called for refreshing messages         
+  resultArray.forEach((elementOfArray) => //following instruction will be applied to each element:
+  {
+    elementOfArray.addEventListener("focus", function(e){ //listenning for focus        
+      resetFocusStates(); //All previous focus values in fields object are reset        
+      for (let field of fields) //looping through fields object
+        {
+        if((field.title)==elementOfArray.name){ //looking for names from "resultArray" that match titles of element in the "fields" object.
+          field.focusState=true;//when the correct line is found, the focusState value is modified back to true in the fields object            
+           errorMessageOnFocus();//function errorMessage is called for refreshing messages         
                
-  //       }
-  //     }        
-  //   }        
-  //     );
-  //     //listenning for click (for the case of checkboxes)
-  //     elementOfArray.addEventListener("click", function(e){ 
-  //       resetFocusStates();        
-  //     for (let field of fields)
-  //       {
-  //       if((field.title)==elementOfArray.name){
-  //         field.focusState=true; 
-  //         errorMessage()      
-  //       }
-  //     }
+        }
+      }        
+    }        
+      );
+      //listenning for click (for the case of checkboxes)
+      elementOfArray.addEventListener("click", function(e){ 
+        resetFocusStates();        
+      for (let field of fields)
+        {
+        if((field.title)==elementOfArray.name){
+          field.focusState=true; 
+          errorMessageOnFocus();      
+        }
+      }
 
-  //       });
+        });
 
 
 
-  //   });
+    });
       
-  // }  
+  }  
 
-          //---------------launching focus detection function on all fields----------------------------
-          // for (let field of fields) {
-          //   focusByName(field.title);
-          // }
-          //---------------END OF launching focus detection function on all fields--------------------
-      //-------------END of detecting focus (and click in the case of checkboxes)---------------------
-//----------END MANAGING FOCUS DETECTION-------------------------------------------------
+     //     ---------------launching focus detection function on all fields----------------------------
+          for (let field of fields) {
+            focusByName(field.title);
+          }
+    //      ---------------END OF launching focus detection function on all fields--------------------
+   //   -------------END of detecting focus (and click in the case of checkboxes)---------------------
+//---------END MANAGING FOCUS DETECTION-------------------------------------------------
 
 
 //---------------------Managing Error messages------------------------
@@ -314,6 +314,7 @@ let fields = [
           function getValidation(string){
             return document.getElementById(string+"-validation")  
           };
+
 
           function hideAllMessages(){
             for (let field of fields){
@@ -332,7 +333,45 @@ let fields = [
 
 
           // Function for error Messages (called on focus (empty fields reached by pressing "tab"), click(empty fields and checkboxes) and input (all fields, when modified)
-          function errorMessage()
+          function errorMessageOnFocus()
+          {
+            for (let field of fields) //loops through every line of "fields" object
+            {  
+              if(((field.validityValue)==false)&&(field.focusState==true)) //If field has focus AND is not valid
+                {
+                (getValidation(field.title)) //reaches the validation div with getValidation function
+                .innerText=field.errorMessage;//Displays message stored in fields object
+                  if((document.getElementById(field.title))) //this condition takes away the case of checkboxes, as these fields don't need a red border and checkboxes have individual Ids
+                  {
+                  document.getElementById(field.title) //get the field itslef
+                  .style.border = "2px solid red" //make the border red
+                  };                
+                }
+              else //any other case
+              {  
+                (getValidation(field.title))//reaches the validation div with getValidation function
+                .innerText="";//Displays empty message
+                if((document.getElementById(field.title)))//take away checkboxes (see above)
+                  { 
+                  document.getElementById(field.title) //get the field itself
+                  .style.border = "none" //No border
+                  }         
+              }
+            }
+
+            
+            };
+         
+
+
+
+
+
+
+
+
+
+          function errorMessageOnSubmit()
           {
             for (let field of fields) //loops through every line of "fields" object
               {  
@@ -357,6 +396,27 @@ let fields = [
                 }
               }
             };
+
+            function removeValidMessages() //on focus and/or input
+            {
+              for (let field of fields) //loops through every line of "fields" object
+                {  
+                  if(((field.validityValue)==true)) //If field is valid
+                    {
+                      (getValidation(field.title))//reaches the validation div with getValidation function
+                      .innerText="";//Displays empty message
+                      if((document.getElementById(field.title)))//take away checkboxes (see above)
+                        { 
+                        document.getElementById(field.title) //get the field itself
+                        .style.border = "none" //No border
+                        }
+                    }      
+                  
+                }
+              };
+
+
+
 //-------------------------END Managing Error messages--------------------------------------------
 
 
@@ -430,9 +490,11 @@ return globalValidity;
  document
 .getElementById("modalForm") //gets the form
 .addEventListener("input", function(e){ //listens to input event
-  hideAllMessages();
+hideAllMessages();
 updateFieldsValidity(); //calls for the update of all validites in the fields objects
-errorMessage() //calls for the update on error messages
+ //calls for the update on error messages
+errorMessageOnFocus();
+removeValidMessages()
 calculateGlobalValidity(); //calcultes globalValidity
 //disableSubmit(globalValidity) ; //  Manages the "enabled/disabled" state on submit button
    return globalValidity; 
@@ -475,10 +537,8 @@ document
   updateFieldsValidity();
   calculateGlobalValidity();
   if (globalValidity==false){
-    errorMessage();  
-  }
-  else{  
-   
+    errorMessageOnSubmit();    }
+  else{     
   closeModal();//closes the form modal
   this.reset();
   displayConfirmationModal();//displays the confirmation modal
