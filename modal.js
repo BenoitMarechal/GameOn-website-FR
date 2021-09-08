@@ -262,47 +262,47 @@ let fields = [
 
 
     //-------------detecting focus (and click in the case of checkboxes)---------------------
-  function focusByName(string){ // will be given fields by name, because of checkboxes #location1 to #location6)   
+  // function focusByName(string){ // will be given fields by name, because of checkboxes #location1 to #location6)   
     
-  let resultArray = document.getElementsByName(string); //All elements are stored in array "ResultArray" ( of one line except for location checkboxes)
+  // let resultArray = document.getElementsByName(string); //All elements are stored in array "ResultArray" ( of one line except for location checkboxes)
   
-  resultArray.forEach((elementOfArray) => //following instruction will be applied to each element:
-  {
-    elementOfArray.addEventListener("focus", function(e){ //listenning for focus        
-      resetFocusStates(); //All previous focus values in fields object are reset        
-      for (let field of fields) //looping through fields object
-        {
-        if((field.title)==elementOfArray.name){ //looking for names from "resultArray" that match titles of element in the "fields" object.
-          field.focusState=true;//when the correct line is found, the focusState value is modified back to true in the fields object            
-           errorMessage();//function errorMessage is called for refreshing messages         
+  // resultArray.forEach((elementOfArray) => //following instruction will be applied to each element:
+  // {
+  //   elementOfArray.addEventListener("focus", function(e){ //listenning for focus        
+  //     resetFocusStates(); //All previous focus values in fields object are reset        
+  //     for (let field of fields) //looping through fields object
+  //       {
+  //       if((field.title)==elementOfArray.name){ //looking for names from "resultArray" that match titles of element in the "fields" object.
+  //         field.focusState=true;//when the correct line is found, the focusState value is modified back to true in the fields object            
+  //          errorMessage();//function errorMessage is called for refreshing messages         
                
-        }
-      }        
-    }        
-      );
-      //listenning for click (for the case of checkboxes)
-      elementOfArray.addEventListener("click", function(e){ 
-        resetFocusStates();        
-      for (let field of fields)
-        {
-        if((field.title)==elementOfArray.name){
-          field.focusState=true; 
-          //No need for errorMessage() since "click" and "input" are the same event in the case a checkbox         
-        }
-      }
+  //       }
+  //     }        
+  //   }        
+  //     );
+  //     //listenning for click (for the case of checkboxes)
+  //     elementOfArray.addEventListener("click", function(e){ 
+  //       resetFocusStates();        
+  //     for (let field of fields)
+  //       {
+  //       if((field.title)==elementOfArray.name){
+  //         field.focusState=true; 
+  //         errorMessage()      
+  //       }
+  //     }
 
-        });
+  //       });
 
 
 
-    });
+  //   });
       
-  }  
+  // }  
 
           //---------------launching focus detection function on all fields----------------------------
-          for (let field of fields) {
-            focusByName(field.title);
-          }
+          // for (let field of fields) {
+          //   focusByName(field.title);
+          // }
           //---------------END OF launching focus detection function on all fields--------------------
       //-------------END of detecting focus (and click in the case of checkboxes)---------------------
 //----------END MANAGING FOCUS DETECTION-------------------------------------------------
@@ -315,6 +315,20 @@ let fields = [
             return document.getElementById(string+"-validation")  
           };
 
+          function hideAllMessages(){
+            for (let field of fields){
+              {  
+                (getValidation(field.title))//reaches the validation div with getValidation function
+                .innerText="";//Displays empty message
+                if((document.getElementById(field.title)))//take away checkboxes (see above)
+                  { 
+                  document.getElementById(field.title) //get the field itself
+                  .style.border = "none" //No border
+                  }         
+              }
+
+            }
+          };
 
 
           // Function for error Messages (called on focus (empty fields reached by pressing "tab"), click(empty fields and checkboxes) and input (all fields, when modified)
@@ -322,17 +336,16 @@ let fields = [
           {
             for (let field of fields) //loops through every line of "fields" object
               {  
-                if(((field.validityValue)==false)&&(field.focusState==true)) //If field has focus AND is not valid
+                if(((field.validityValue)==false)) //If field has focus AND is not valid
                   {
                   (getValidation(field.title)) //reaches the validation div with getValidation function
                   .innerText=field.errorMessage;//Displays message stored in fields object
-                    if((document.getElementById(field.title))) //this condition takes away the case of checkboxes, as these fields don't need a red border and checkboxes have individual Ids
-                    {
+                    if((document.getElementById(field.title))) //this condition takes away the case of checkboxes. 
                     document.getElementById(field.title) //get the field itslef
-                    .style.border = "2px solid red" //make the border red
-                    };                
-                  }
-                else //any other case
+                    .style.border = "2px solid red" //makes the border red
+                  }                
+                  
+                else //any other case (checkboxes)
                 {  
                   (getValidation(field.title))//reaches the validation div with getValidation function
                   .innerText="";//Displays empty message
@@ -397,18 +410,18 @@ return globalValidity;
 
 //---------------------Managing SUBMIT button state----------------------------
 //function that disables the submit button when given false (will be given GlobalValidity);
-function disableSubmit(disabled) {
-  if (disabled) { //if the function is given "true"
-    document
-    .getElementById("submit") //gets the submit button
-      .removeAttribute("disabled"); //default disabled attribute is removed
-                  } 
-  else {//if the function is given "false"  
-    document
-    .getElementById("submit") //gets the submit button
-      .setAttribute("disabled", true); //Disabled attribute is set
-      }
-};
+// function disableSubmit(disabled) {
+//   if (disabled) { //if the function is given "true"
+//     document
+//     .getElementById("submit") //gets the submit button
+//       .removeAttribute("disabled"); //default disabled attribute is removed
+//                   } 
+//   else {//if the function is given "false"  
+//     document
+//     .getElementById("submit") //gets the submit button
+//       .setAttribute("disabled", true); //Disabled attribute is set
+//       }
+// };
 //---------------------END Managing SUBMIT button state----------------------------
 
 
@@ -417,6 +430,7 @@ function disableSubmit(disabled) {
  document
 .getElementById("modalForm") //gets the form
 .addEventListener("input", function(e){ //listens to input event
+  hideAllMessages();
 updateFieldsValidity(); //calls for the update of all validites in the fields objects
 errorMessage() //calls for the update on error messages
 calculateGlobalValidity(); //calcultes globalValidity
@@ -458,11 +472,19 @@ document
 .getElementById("modalForm") //gets the form
 .addEventListener("submit", function(e){//listens to submit event on the form
   e.preventDefault(); //prevents automatic closing/reload of page and loss of informations
+  updateFieldsValidity();
+  calculateGlobalValidity();
+  if (globalValidity==false){
+    errorMessage();  
+  }
+  else{  
+   
   closeModal();//closes the form modal
   this.reset();
   displayConfirmationModal();//displays the confirmation modal
-              });
-
+              };
+            });
+            
 
 //----------------------- END OF SUBMIT---------------------------------------
 
@@ -472,7 +494,7 @@ document
 
 Autoriser les emails en majuscules  --> OK
 2 caracteres minimum --> OK
-
+// ne pas desactiver le .btn-submit -->OK
 Il ne faut pas autoriser les espaces
 
 
@@ -480,7 +502,7 @@ Il ne faut pas autoriser les espaces
 
 
 // envoyer les messages seulement au bouton .btn-submit
-// ne pas desactiver le .btn-submit
+
 
 
 ------------------------------------------------------------------------------------------*/
